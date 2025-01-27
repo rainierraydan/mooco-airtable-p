@@ -1,5 +1,5 @@
 
-console.log('v0.3');
+console.log('v0.4');
 
 document.getElementById('airTableButton').addEventListener('click', async () => {
     console.log('Fetching data from Airtable...');
@@ -12,7 +12,7 @@ document.getElementById('airTableButton').addEventListener('click', async () => 
     }
   });
 
-  document.getElementById('FigmaButton').addEventListener('click', async () => {
+document.getElementById('FigmaButton').addEventListener('click', async () => {
     console.log('Fetching data from Figma...');
     try {
         const response = await fetch('/api/figma');
@@ -24,8 +24,13 @@ document.getElementById('airTableButton').addEventListener('click', async () => 
 
             // Si el nodo es un texto y tiene un nombre que coincide con los buscados
             if (node.type === 'TEXT' && node.name.startsWith('#')) {
+                const layerName = node.name
+                    .replace('#', '') // Elimina el #
+                    .toLowerCase() // Convierte a minúsculas
+                    .replace(/\s+/g, ''); // Elimina espacios
+
                 textLayers.push({
-                    name: node.name.replace('#', ''), // Elimina el #
+                    name: layerName, // Nombre transformado
                     value: node.characters || '' // Obtiene el texto del layer
                 });
             }
