@@ -1,8 +1,8 @@
+// Importa la librería airtable
+const Airtable = require('airtable');
 
 console.log('v0.1');
 
-// Importa la librería airtable
-const Airtable = require('airtable');
 
 console.log('Iniciando conexión con Airtable...');
 
