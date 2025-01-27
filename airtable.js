@@ -1,6 +1,8 @@
 // Importa la librería airtable
 const Airtable = require('airtable');
 
+console.log('Iniciando conexión con Airtable...');
+
 // Configura Airtable con tu API key y base ID
 const base = new Airtable({ apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN }).base(
   process.env.AIRTABLE_BASE_ID
