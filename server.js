@@ -3,6 +3,7 @@ const auth = require('basic-auth');
 const express = require('express');
 const path = require('path');
 const { getTableData } = require('./airtable');
+const { getFigmaFileData } = require('./figma'); // Importa la función de figma.js
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,18 +35,16 @@ app.get('/api/data', async (req, res) => {
   }
 });
 
-const { getFigmaFileData } = require('./figma'); // Asegúrate de importar la función
-
 // Endpoint para obtener datos de Figma
 app.get('/api/figma', async (req, res) => {
-  try {
-    const figmaData = await getFigmaFileData();
-    res.json(figmaData);
-  } catch (error) {
-    console.error('Error fetching data from Figma:', error);
-    res.status(500).json({ error: 'Error fetching data from Figma' });
-  }
-});
+    try {
+      const figmaData = await getFigmaFileData();
+      res.json(figmaData);
+    } catch (error) {
+      console.error('Error fetching data from Figma:', error);
+      res.status(500).json({ error: 'Error fetching data from Figma' });
+    }
+  });
 
 // Iniciar el servidor
 app.listen(PORT, () => {
