@@ -19,7 +19,7 @@ async function getTableData(tableName) {
 
 // Ejemplo de uso
 (async () => {
-  const tableName = 'Sheet1'; // Reemplaza con el nombre de tu tabla
+  const tableName = '001'; // Reemplaza con el nombre de tu tabla
   const data = await getTableData(tableName);
   console.log(data);
 })();

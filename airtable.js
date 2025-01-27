@@ -1,7 +1,4 @@
-// Importa la librería airtable
 const Airtable = require('airtable');
-
-console.log('Iniciando conexión con Airtable...');
 
 // Configura Airtable con tu API key y base ID
 const base = new Airtable({ apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN }).base(
@@ -19,9 +16,4 @@ async function getTableData(tableName) {
   }
 }
 
-// Ejemplo de uso
-(async () => {
-  const tableName = 'Sheet1'; // Reemplaza con el nombre de tu tabla
-  const data = await getTableData(tableName);
-  console.log(data);
-})();
+module.exports = { getTableData };
