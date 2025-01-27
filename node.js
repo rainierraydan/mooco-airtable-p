@@ -1,53 +1,25 @@
-const { Airtable } = require('airtable');
+// Importa la librería airtable
+const Airtable = require('airtable');
 
-// Configura cliente de Airtable
-const base = new Airtable({
-  apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN
-}).base(process.env.AIRTABLE_BASE_ID);
+// Configura Airtable con tu API key y base ID
+const base = new Airtable({ apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN }).base(
+  process.env.AIRTABLE_BASE_ID
+);
 
-// Función para obtener registros
-async function fetchRecords(tableName, options = {}) {
+// Función para obtener datos de una tabla
+async function getTableData(tableName) {
   try {
-    const records = await base(tableName).select({
-      maxRecords: options.maxRecords || 100,
-      view: options.view || 'Grid view'
-    }).firstPage();
-
-    return records.map(record => ({
-      id: record.id,
-      ...record.fields
-    }));
+    const records = await base(tableName).select().all();
+    return records.map((record) => record.fields);
   } catch (error) {
-    console.error(`Error fetching records from ${tableName}:`, error);
+    console.error('Error fetching data from Airtable:', error);
     throw error;
   }
 }
 
-// Función para crear registro
-async function createRecord(tableName, recordData) {
-  try {
-    const newRecord = await base(tableName).create(recordData);
-    return newRecord;
-  } catch (error) {
-    console.error(`Error creating record in ${tableName}:`, error);
-    throw error;
-  }
-}
-
-// Función para actualizar registro
-async function updateRecord(tableName, recordId, updateData) {
-  try {
-    const updatedRecord = await base(tableName).update(recordId, updateData);
-    return updatedRecord;
-  } catch (error) {
-    console.error(`Error updating record in ${tableName}:`, error);
-    throw error;
-  }
-}
-
-module.exports = {
-  base,
-  fetchRecords,
-  createRecord,
-  updateRecord
-};
+// Ejemplo de uso
+(async () => {
+  const tableName = 'Sheet1'; // Reemplaza con el nombre de tu tabla
+  const data = await getTableData(tableName);
+  console.log(data);
+})();
