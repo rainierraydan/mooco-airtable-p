@@ -104,16 +104,20 @@ document.getElementById('FigmaButton').addEventListener('click', async () => {
 document.getElementById('DupFigmaButton').addEventListener('click', async () => {
     console.log('Duplicating Figma file...');
     try {
-        // Llama a la función para duplicar el archivo de Figma
-        const newFileData = await fetch('/api/duplicate-figma', {
-            method: 'POST',
-        }).then(response => response.json());
+        // Hacer una solicitud POST al endpoint /api/duplicate-figma
+        const response = await fetch('/api/duplicate-figma', {
+            method: 'POST', // Asegúrate de usar POST
+            headers: {
+                'Content-Type': 'application/json', // Indica que el cuerpo es JSON
+            },
+        });
 
-        // Obtén la URL del nuevo archivo
-        const newFileUrl = `https://www.figma.com/file/${newFileData.key}`;
-        console.log('New Figma file URL:', newFileUrl);
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
 
-        // Aquí puedes hacer algo con la URL, como mostrarla en la interfaz o almacenarla
+        const result = await response.json();
+        console.log('New Figma file URL:', result.newFileUrl);
     } catch (error) {
         console.error('Error:', error);
     }
