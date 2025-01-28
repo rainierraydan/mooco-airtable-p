@@ -3,8 +3,7 @@ const auth = require('basic-auth');
 const express = require('express');
 const path = require('path');
 const { getTableData } = require('./airtable');
-const { getFigmaFileData } = require('./figma'); // Importa la función de figma.js
-
+const { getFigmaFileData, duplicateFigmaFile } = require('./figma'); // Importa ambas funciones
 const app = express();
 const PORT = process.env.PORT || 3000;
 
