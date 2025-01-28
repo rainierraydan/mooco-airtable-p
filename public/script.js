@@ -1,27 +1,36 @@
 
-console.log('v0.01');
+console.log('v0.02');
 var curAirtable, curFigma;
+
 document.getElementById('airTableButton').addEventListener('click', async () => {
     console.log('Fetching data from Airtable...');
     try {
         const response = await fetch('/api/data');
         const data = await response.json();
 
-        // Función para transformar las claves del objeto
+        // Función recursiva para transformar las claves del objeto
         function transformKeys(obj) {
-            const transformed = {};
-            for (let key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    const newKey = key
-                        .replace(/\s+/g, '') // Elimina espacios
-                        .toLowerCase(); // Convierte a minúsculas
-                    transformed[newKey] = obj[key];
+            if (Array.isArray(obj)) {
+                // Si es un array, transformamos cada elemento
+                return obj.map(item => transformKeys(item));
+            } else if (typeof obj === 'object' && obj !== null) {
+                // Si es un objeto, transformamos cada clave
+                const transformed = {};
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        const newKey = key
+                            .replace(/\s+/g, '') // Elimina espacios
+                            .toLowerCase(); // Convierte a minúsculas
+                        transformed[newKey] = transformKeys(obj[key]); // Aplicamos recursivamente
+                    }
                 }
+                return transformed;
             }
-            return transformed;
+            // Si no es un objeto ni un array, devolvemos el valor tal cual
+            return obj;
         }
 
-        // Transforma las claves del objeto data
+        // Transformamos las claves del objeto data
         const transformedData = transformKeys(data);
 
         console.log('Data from Airtable:', transformedData);
