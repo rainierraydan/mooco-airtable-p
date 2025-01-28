@@ -1,17 +1,35 @@
 
-console.log('v0.5');
+console.log('v0.01');
 var curAirtable, curFigma;
 document.getElementById('airTableButton').addEventListener('click', async () => {
     console.log('Fetching data from Airtable...');
     try {
-      const response = await fetch('/api/data');
-      const data = await response.json();
-      console.log('Data from Airtable:', data);
-      curAirtable = data;
+        const response = await fetch('/api/data');
+        const data = await response.json();
+
+        // Función para transformar las claves del objeto
+        function transformKeys(obj) {
+            const transformed = {};
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const newKey = key
+                        .replace(/\s+/g, '') // Elimina espacios
+                        .toLowerCase(); // Convierte a minúsculas
+                    transformed[newKey] = obj[key];
+                }
+            }
+            return transformed;
+        }
+
+        // Transforma las claves del objeto data
+        const transformedData = transformKeys(data);
+
+        console.log('Data from Airtable:', transformedData);
+        curAirtable = transformedData;
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  });
+});
 
 document.getElementById('FigmaButton').addEventListener('click', async () => {
     console.log('Fetching data from Figma...');
