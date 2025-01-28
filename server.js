@@ -46,6 +46,25 @@ app.get('/api/figma', async (req, res) => {
     }
   });
 
+// Endpoint para duplicar el archivo de Figma
+app.post('/api/duplicate-figma', async (req, res) => {
+  try {
+      // Llama a la función para duplicar el archivo de Figma
+      const newFileData = await duplicateFigmaFile();
+
+      // Devuelve los datos del nuevo archivo, incluyendo la URL
+      const newFileUrl = `https://www.figma.com/file/${newFileData.key}`;
+      res.json({ 
+          message: 'Figma file duplicated successfully',
+          newFileUrl: newFileUrl,
+          newFileData: newFileData
+      });
+  } catch (error) {
+      console.error('Error duplicating Figma file:', error);
+      res.status(500).json({ error: 'Error duplicating Figma file' });
+  }
+});
+
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

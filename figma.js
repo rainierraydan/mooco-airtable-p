@@ -38,4 +38,44 @@ async function getFigmaFileData() {
   }
 }
 
-module.exports = { getFigmaFileData };
+// Función para crear un nuevo archivo en Figma
+async function duplicateFigmaFile() {
+  try {
+    // Asegúrate de que fetch esté cargado antes de usarlo
+    if (!fetch) {
+      await import('node-fetch').then((module) => {
+        fetch = module.default;
+      });
+    }
+
+    // Obtener el contenido del archivo original
+    const fileData = await getFigmaFileData();
+
+    // Crear un nuevo archivo en Figma (esto es un ejemplo, la API de Figma no tiene un endpoint directo para duplicar)
+    // En su lugar, puedes crear un nuevo archivo manualmente y copiar el contenido.
+    // Aquí asumimos que tienes un endpoint personalizado o una lógica para manejar esto.
+    const response = await fetch('https://api.figma.com/v1/files', {
+      method: 'POST',
+      headers: {
+        'X-Figma-Token': FIGMA_TOKEN,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `Copia de ${fileData.name}`,
+        nodes: fileData.document.children, // Copia los nodos del archivo original
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const newFileData = await response.json();
+    return newFileData;
+  } catch (error) {
+    console.error('Error duplicating Figma file:', error);
+    throw error;
+  }
+}
+
+module.exports = { getFigmaFileData, duplicateFigmaFile };

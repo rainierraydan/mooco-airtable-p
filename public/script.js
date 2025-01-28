@@ -1,5 +1,5 @@
 
-console.log('v0.02');
+console.log('v0.03');
 var curAirtable, curFigma;
 
 document.getElementById('airTableButton').addEventListener('click', async () => {
@@ -96,6 +96,24 @@ document.getElementById('FigmaButton').addEventListener('click', async () => {
 
         console.log('Frames with text layers:', result);
         curFigma = result;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+document.getElementById('DupFigmaButton').addEventListener('click', async () => {
+    console.log('Duplicating Figma file...');
+    try {
+        // Llama a la función para duplicar el archivo de Figma
+        const newFileData = await fetch('/api/duplicate-figma', {
+            method: 'POST',
+        }).then(response => response.json());
+
+        // Obtén la URL del nuevo archivo
+        const newFileUrl = `https://www.figma.com/file/${newFileData.key}`;
+        console.log('New Figma file URL:', newFileUrl);
+
+        // Aquí puedes hacer algo con la URL, como mostrarla en la interfaz o almacenarla
     } catch (error) {
         console.error('Error:', error);
     }
