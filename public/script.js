@@ -1,5 +1,5 @@
 
-console.log('v0.03');
+console.log('v0.04');
 var curAirtable, curFigma;
 
 document.getElementById('airTableButton').addEventListener('click', async () => {
