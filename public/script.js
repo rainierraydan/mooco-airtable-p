@@ -1,12 +1,13 @@
 
-console.log('v0.4');
-
+console.log('v0.5');
+var curAirtable, curFigma;
 document.getElementById('airTableButton').addEventListener('click', async () => {
     console.log('Fetching data from Airtable...');
     try {
       const response = await fetch('/api/data');
       const data = await response.json();
       console.log('Data from Airtable:', data);
+      curAirtable = data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -67,6 +68,7 @@ document.getElementById('FigmaButton').addEventListener('click', async () => {
             });
 
         console.log('Frames with text layers:', result);
+        curFigma = result;
     } catch (error) {
         console.error('Error:', error);
     }
