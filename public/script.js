@@ -51,9 +51,10 @@ document.getElementById('FigmaButton').addEventListener('click', async () => {
             let textLayers = [];
 
             // Si el nodo es un texto y tiene un nombre que coincide con los buscados
-            if (node.type === 'TEXT' && node.name.startsWith('#')) {
+            // if (node.type === 'TEXT' && node.name.startsWith('#')) {
+            if (node.type === 'TEXT') {
                 const layerName = node.name
-                    .replace('#', '') // Elimina el #
+                    // .replace('#', '') // Elimina el #
                     .toLowerCase() // Convierte a minúsculas
                     .replace(/\s+/g, ''); // Elimina espacios
 
